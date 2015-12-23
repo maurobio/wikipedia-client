@@ -44,8 +44,21 @@ module Wikipedia
       page['extract']
     end
 
-    def summary
+    def summary(characters: nil, sentences: nil)
       s = (page['extract'].split(pattern="=="))[0].strip
+      if characters
+        s = s[0..characters].rpartition(" ").first << " ..."
+      end
+      if sentences
+        text_arr = s.split(/[\.\!\?] +(?=[A-Z])/)
+        text_arr = text_arr.first(sentences)
+        s = text_arr.join(' ')
+        last_ch = s[-1]
+        if last_ch != '.'
+          s = s + '.'
+        end
+      end
+      return s
     end
 
     def categories
