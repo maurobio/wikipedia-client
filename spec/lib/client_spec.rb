@@ -161,4 +161,14 @@ describe Wikipedia::Client, "page.summary (mocked)" do
     @page.summary.should == 'Edsger Wybe Dijkstra (Dutch pronunciation: [ˈɛtsxər ˈʋibə ˈdɛikstra] ( ); 11 May 1930 – 6 August 2002) was a Dutch computer scientist. He received the 1972 Turing Award for fundamental contributions to developing programming languages, and was the Schlumberger Centennial Chair of Computer Sciences at The University of Texas at Austin from 1984 until 2000.
 Shortly before his death in 2002, he received the ACM PODC Influential Paper Award in distributed computing for his work on self-stabilization of program computation. This annual award was renamed the Dijkstra Prize the following year, in his honor.'
   end
+
+  it "summary returns only the number of characters in the parameter characters" do
+    @page = @client.find('Edsger_Dijkstra')
+    @page.summary(characters: 7).should == 'Edsger ...'
+  end
+
+  it "summary returns only the number of characters in the parameter characters" do
+    @page = @client.find('Edsger_Dijkstra')
+    @page.summary(sentences: 2).should == "Edsger Wybe Dijkstra (Dutch pronunciation: [ˈɛtsxər ˈʋibə ˈdɛikstra] ( ); 11 May 1930 – 6 August 2002) was a Dutch computer scientist He received the 1972 Turing Award for fundamental contributions to developing programming languages, and was the Schlumberger Centennial Chair of Computer Sciences at The University of Texas at Austin from 1984 until 2000.\nShortly before his death in 2002, he received the ACM PODC Influential Paper Award in distributed computing for his work on self-stabilization of program computation."
+  end
 end
